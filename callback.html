@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICH! - Connexion Strava</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+        }
+        .logo {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FF9500, #FF6B00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #8E8E93;
+            margin-bottom: 2rem;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #333;
+            border-top-color: #FF9500;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 2rem;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .success {
+            color: #34C759;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .error {
+            color: #FF3B30;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF9500, #FF6B00);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="content">
+        <div class="spinner"></div>
+        <div class="logo">ICH!</div>
+        <h1>Connexion à Strava...</h1>
+        <p>Redirection vers l'application en cours...</p>
+    </div>
+
+    <script>
+        // Récupérer le code d'autorisation de l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const error = urlParams.get('error');
+        
+        const content = document.getElementById('content');
+        
+        if (error) {
+            content.innerHTML = `
+                <div class="error" style="font-size: 3rem;">✗</div>
+                <div class="logo">ICH!</div>
+                <h1 class="error">Connexion refusée</h1>
+                <p>Tu as refusé la connexion à Strava.</p>
+                <p>Tu peux fermer cette page.</p>
+            `;
+        } else if (code) {
+            // Rediriger vers l'app avec le code
+            const appUrl = 'ichapp://strava/callback?code=' + code;
+            
+            content.innerHTML = `
+                <div class="success">✓</div>
+                <div class="logo">ICH!</div>
+                <h1>Connexion réussie !</h1>
+                <p>Retourne dans l'application ICH!</p>
+                <a href="${appUrl}" class="btn">Ouvrir ICH!</a>
+            `;
+            
+            // Essayer de rediriger automatiquement
+            setTimeout(() => {
+                window.location.href = appUrl;
+            }, 500);
+        } else {
+            content.innerHTML = `
+                <div class="error" style="font-size: 3rem;">?</div>
+                <div class="logo">ICH!</div>
+                <h1>Erreur</h1>
+                <p>Aucun code d'autorisation reçu.</p>
+                <p>Tu peux fermer cette page et réessayer.</p>
+            `;
+        }
+    </script>
+</body>
+</html>
