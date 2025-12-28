@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ICH! - L'application de musculation intelligente avec programmes personnalisés, suivi de progression et bien plus.">
+    <meta name="keywords" content="musculation, fitness, workout, gym, exercices, programme musculation, suivi progression">
+    <meta name="author" content="ICH!">
+    <title>ICH! - Musculation Intelligente</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #1C1C1E;
+            --bg-tertiary: #2C2C2E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E8E93;
+            --accent-orange: #FF9500;
+            --accent-blue: #007AFF;
+            --accent-green: #34C759;
+            --accent-purple: #AF52DE;
+            --accent-red: #FF3B30;
+            --gradient-start: #FF9500;
+            --gradient-end: #FF6B00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white !important;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 149, 0, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 122, 255, 0.1) 0%, transparent 40%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 149, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: var(--bg-secondary);
+            border-radius: 40px;
+            border: 8px solid var(--bg-tertiary);
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            padding: 3rem 1.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: var(--bg-primary);
+            border-radius: 0 0 20px 20px;
+        }
+
+        .phone-app-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .phone-app-header h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .phone-app-header p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .phone-workout-card {
+            background: var(--bg-tertiary);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .phone-workout-card h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .phone-workout-card .tag {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .phone-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .phone-stat {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 0.8rem;
+            text-align: center;
+        }
+
+        .phone-stat .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+        }
+
+        .phone-stat .label {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--bg-secondary);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-tertiary);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 149, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon.orange { background: rgba(255, 149, 0, 0.2); }
+        .feature-icon.blue { background: rgba(0, 122, 255, 0.2); }
+        .feature-icon.green { background: rgba(52, 199, 89, 0.2); }
+        .feature-icon.purple { background: rgba(175, 82, 222, 0.2); }
+        .feature-icon.red { background: rgba(255, 59, 48, 0.2); }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Program Section */
+        .programs {
+            padding: 6rem 2rem;
+            background: var(--bg-primary);
+        }
+
+        .programs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .program-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .program-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .program-item {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .program-item:hover, .program-item.active {
+            border-color: var(--accent-orange);
+            background: var(--bg-tertiary);
+        }
+
+        .program-item .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .program-item .info h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .program-item .info p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .program-visual {
+            position: relative;
+        }
+
+        .program-card-large {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .program-card-large h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .exercise-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: var(--bg-primary);
+            border-radius: 12px;
+        }
+
+        .exercise-item .number {
+            width: 30px;
+            height: 30px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .exercise-item .name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .exercise-item .sets {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(255, 149, 0, 0.1), rgba(0, 122, 255, 0.1));
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item .number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-item .label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 6rem 2rem;
+            background: var(--bg-secondary);
+        }
+
+        .pricing-cards {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--bg-tertiary);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent-orange);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'POPULAIRE';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-card .price {
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 1rem 0;
+        }
+
+        .pricing-card .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .pricing-card ul li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .pricing-card ul li::before {
+            content: '✓';
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 6rem 2rem;
+            background: var(--bg-primary);
+        }
+
+        .testimonials-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .testimonial-card .stars {
+            color: var(--accent-orange);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonial-author .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-author .info h4 {
+            font-weight: 600;
+        }
+
+        .testimonial-author .info span {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .app-store-badge {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .app-store-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .app-store-badge img {
+            height: 60px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            background: var(--bg-primary);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-brand .logo {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-orange);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .phone-mockup {
+                width: 250px;
+                height: 500px;
+            }
+
+            .program-showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .cta-content h2 {
+                font-size: 2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .stat-item .number {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">ICH!</div>
+            <ul class="nav-links">
+                <li><a href="#features">Fonctionnalités</a></li>
+                <li><a href="#programs">Programmes</a></li>
+                <li><a href="#pricing">Tarifs</a></li>
+                <li><a href="#download" class="nav-cta">Télécharger</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>La musculation <span>intelligente</span></h1>
+                <p>Des programmes scientifiques personnalisés, un suivi précis de ta progression, et tout ce qu'il faut pour atteindre tes objectifs. Plus d'excuses.</p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary">
+                        <span>📱</span> Télécharger l'app
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        <span>▶️</span> Découvrir
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="phone-mockup">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen">
+                        <div class="phone-app-header">
+                            <h3>ICH!</h3>
+                            <p>Prêt à t'entraîner ? 💪</p>
+                        </div>
+                        <div class="phone-workout-card">
+                            <h4>Push - Pectoraux & Épaules</h4>
+                            <span class="tag">Aujourd'hui</span>
+                        </div>
+                        <div class="phone-workout-card">
+                            <h4>Pull - Dos & Biceps</h4>
+                            <span class="tag" style="background: var(--accent-green);">Demain</span>
+                        </div>
+                        <div class="phone-stats">
+                            <div class="phone-stat">
+                                <div class="value">14</div>
+                                <div class="label">Séances</div>
+                            </div>
+                            <div class="phone-stat">
+                                <div class="value">🔥7</div>
+                                <div class="label">Streak</div>
+                            </div>
+                            <div class="phone-stat">
+                                <div class="value">+12%</div>
+                                <div class="label">Volume</div>
+                            </div>
+                            <div class="phone-stat">
+                                <div class="value">85kg</div>
+                                <div class="label">Squat 1RM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2>Tout ce dont tu as besoin</h2>
+            <p>Une app complète conçue par des passionnés de musculation, pour des passionnés de musculation.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon orange">📋</div>
+                <h3>Programmes scientifiques</h3>
+                <p>Des programmes basés sur les dernières recherches en hypertrophie, avec périodisation et surcharge progressive automatique.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon blue">📊</div>
+                <h3>Suivi de progression</h3>
+                <p>Graphiques détaillés de ton volume, tonnage et records personnels. Visualise ta progression semaine après semaine.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon green">⏱️</div>
+                <h3>Timer intelligent</h3>
+                <p>Timer de repos adaptatif avec notifications et Live Activities sur l'écran de verrouillage. Ne rate plus jamais ton temps de repos.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon purple">🏆</div>
+                <h3>Badges & Récompenses</h3>
+                <p>Débloque des badges en atteignant des milestones. Reste motivé avec des objectifs clairs et des récompenses.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon red">📹</div>
+                <h3>Vidéos d'exercices</h3>
+                <p>Accède à des démonstrations en GIF pour chaque exercice. Apprends la bonne technique et évite les blessures.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon orange">🔄</div>
+                <h3>Variantes d'exercices</h3>
+                <p>Pas accès à un équipement ? Choisis parmi les variantes proposées pour adapter les exercices à ton matériel.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="programs" id="programs">
+        <div class="programs-container">
+            <div class="section-header">
+                <h2>Des programmes pour tous</h2>
+                <p>Que tu sois débutant ou avancé, trouve le programme qui te correspond.</p>
+            </div>
+            <div class="program-showcase">
+                <div class="program-list">
+                    <div class="program-item active">
+                        <div class="icon">💪</div>
+                        <div class="info">
+                            <h4>Push Pull Legs</h4>
+                            <p>Le classique pour une croissance équilibrée</p>
+                        </div>
+                    </div>
+                    <div class="program-item">
+                        <div class="icon">🏋️</div>
+                        <div class="info">
+                            <h4>Upper Lower</h4>
+                            <p>4 jours/semaine, parfait pour les intermédiaires</p>
+                        </div>
+                    </div>
+                    <div class="program-item">
+                        <div class="icon">⚡</div>
+                        <div class="info">
+                            <h4>Full Body</h4>
+                            <p>3 jours/semaine, idéal pour commencer</p>
+                        </div>
+                    </div>
+                    <div class="program-item">
+                        <div class="icon">🎯</div>
+                        <div class="info">
+                            <h4>Programmes personnalisés</h4>
+                            <p>Crée ton propre programme sur mesure</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="program-visual">
+                    <div class="program-card-large">
+                        <h3>Push - Pectoraux & Épaules</h3>
+                        <div class="exercise-list">
+                            <div class="exercise-item">
+                                <div class="number">1</div>
+                                <div class="name">Développé couché</div>
+                                <div class="sets">4×8-10</div>
+                            </div>
+                            <div class="exercise-item">
+                                <div class="number">2</div>
+                                <div class="name">Développé incliné haltères</div>
+                                <div class="sets">3×10-12</div>
+                            </div>
+                            <div class="exercise-item">
+                                <div class="number">3</div>
+                                <div class="name">Écartés poulie haute</div>
+                                <div class="sets">3×12-15</div>
+                            </div>
+                            <div class="exercise-item">
+                                <div class="number">4</div>
+                                <div class="name">Élévations latérales</div>
+                                <div class="sets">4×15-20</div>
+                            </div>
+                            <div class="exercise-item">
+                                <div class="number">5</div>
+                                <div class="name">Extensions triceps poulie</div>
+                                <div class="sets">3×12-15</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="number">150+</div>
+                <div class="label">Exercices</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">50+</div>
+                <div class="label">Badges à débloquer</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">100%</div>
+                <div class="label">Hors ligne</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">0</div>
+                <div class="label">Pubs</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <h2>Simple et transparent</h2>
+            <p>Commence gratuitement, puis passe à Premium pour débloquer toutes les fonctionnalités.</p>
+        </div>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <h3>Mensuel</h3>
+                <div class="price">4,99€<span>/mois</span></div>
+                <ul>
+                    <li>Tous les programmes</li>
+                    <li>Statistiques avancées</li>
+                    <li>Badges et récompenses</li>
+                    <li>Export des données</li>
+                    <li>Intégration Strava</li>
+                    <li>Support prioritaire</li>
+                </ul>
+                <a href="#download" class="btn btn-secondary">Commencer</a>
+            </div>
+            <div class="pricing-card featured">
+                <h3>Annuel</h3>
+                <div class="price">29,99€<span>/an</span></div>
+                <ul>
+                    <li>Tous les programmes</li>
+                    <li>Statistiques avancées</li>
+                    <li>Badges et récompenses</li>
+                    <li>Export des données</li>
+                    <li>Intégration Strava</li>
+                    <li>Support prioritaire</li>
+                    <li><strong>Économise 50%</strong></li>
+                </ul>
+                <a href="#download" class="btn btn-primary">Commencer</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="section-header">
+            <h2>Ce qu'ils en disent</h2>
+            <p>Rejoins des centaines de pratiquants satisfaits.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p>"Enfin une app de muscu qui comprend ce qu'on veut ! Le timer sur l'écran de verrouillage c'est un game changer. Je ne reviendrais jamais en arrière."</p>
+                <div class="testimonial-author">
+                    <div class="avatar">T</div>
+                    <div class="info">
+                        <h4>Thomas</h4>
+                        <span>3 mois d'utilisation</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p>"Les programmes sont vraiment bien pensés. J'ai pris 5kg de muscle en 6 mois en suivant le PPL. Le suivi de progression me motive à me surpasser."</p>
+                <div class="testimonial-author">
+                    <div class="avatar">L</div>
+                    <div class="info">
+                        <h4>Lucas</h4>
+                        <span>6 mois d'utilisation</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p>"Interface magnifique, pas de pubs, tout marche hors ligne. C'est exactement ce que je cherchais depuis des années. Merci !"</p>
+                <div class="testimonial-author">
+                    <div class="avatar">M</div>
+                    <div class="info">
+                        <h4>Marie</h4>
+                        <span>2 mois d'utilisation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="download">
+        <div class="cta-content">
+            <h2>Prêt à transformer ton physique ?</h2>
+            <p>Télécharge ICH! gratuitement et commence ta transformation dès aujourd'hui.</p>
+            <a href="https://apps.apple.com/app/ich-musculation" class="app-store-badge">
+                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Télécharger sur l'App Store">
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">ICH!</div>
+                <p>L'application de musculation intelligente pour ceux qui veulent vraiment progresser.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Produit</h4>
+                <ul>
+                    <li><a href="#features">Fonctionnalités</a></li>
+                    <li><a href="#programs">Programmes</a></li>
+                    <li><a href="#pricing">Tarifs</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Ressources</h4>
+                <ul>
+                    <li><a href="support.html">Support</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Légal</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Confidentialité</a></li>
+                    <li><a href="terms-of-use.html">CGU</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 ICH! Tous droits réservés.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="TikTok">🎵</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.8)';
+            }
+        });
+
+        // Program items interaction
+        const programItems = document.querySelectorAll('.program-item');
+        programItems.forEach(item => {
+            item.addEventListener('click', () => {
+                programItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .program-item, .testimonial-card, .pricing-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
