@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ICH! - L'application de musculation intelligente avec programmes personnalisés, suivi de progression et bien plus.">
-    <meta name="keywords" content="musculation, fitness, workout, gym, exercices, programme musculation, suivi progression">
+    <meta name="description" content="ICH! - L'application de musculation intelligente avec programmes personnalisés, suivi de progression, nutrition et intégration Strava.">
+    <meta name="keywords" content="musculation, fitness, workout, gym, exercices, programme musculation, suivi progression, strava, nutrition">
     <meta name="author" content="ICH!">
     <title>ICH! - Musculation Intelligente</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,18 +12,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #000000;
+            --bg-primary: #0a0a0a;
             --bg-secondary: #1C1C1E;
             --bg-tertiary: #2C2C2E;
             --text-primary: #FFFFFF;
             --text-secondary: #8E8E93;
-            --accent-orange: #FF9500;
+            --accent-red: #FF3B30;
+            --accent-orange: #FF6B35;
+            --accent-yellow: #FFD60A;
             --accent-blue: #007AFF;
             --accent-green: #34C759;
             --accent-purple: #AF52DE;
-            --accent-red: #FF3B30;
-            --gradient-start: #FF9500;
-            --gradient-end: #FF6B00;
+            --accent-strava: #FC4C02;
+            --gradient-start: #FF3B30;
+            --gradient-mid: #FF6B35;
+            --gradient-end: #FF9500;
         }
 
         * {
@@ -52,7 +55,7 @@
             right: 0;
             z-index: 1000;
             padding: 1rem 2rem;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -67,12 +70,20 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             font-size: 1.8rem;
             font-weight: 900;
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
         }
 
         .nav-links {
@@ -118,14 +129,15 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle at 30% 50%, rgba(255, 149, 0, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(0, 122, 255, 0.1) 0%, transparent 40%);
-            animation: pulse 8s ease-in-out infinite;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 59, 48, 0.2) 0%, transparent 40%),
+                        radial-gradient(circle at 70% 70%, rgba(255, 107, 53, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 50% 50%, rgba(255, 149, 0, 0.1) 0%, transparent 50%);
+            animation: heroGlow 10s ease-in-out infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+        @keyframes heroGlow {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.1) rotate(5deg); opacity: 0.8; }
         }
 
         .hero-content {
@@ -146,7 +158,7 @@
         }
 
         .hero-text h1 span {
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -157,6 +169,29 @@
             color: var(--text-secondary);
             margin-bottom: 2rem;
             max-width: 500px;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-badge.strava {
+            border-color: rgba(252, 76, 2, 0.3);
+            background: rgba(252, 76, 2, 0.1);
         }
 
         .hero-buttons {
@@ -182,12 +217,12 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             color: white;
-            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 59, 48, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 149, 0, 0.4);
+            box-shadow: 0 15px 40px rgba(255, 59, 48, 0.4);
         }
 
         .btn-secondary {
@@ -207,101 +242,233 @@
             position: relative;
         }
 
+        /* Phone mockup with real screenshot */
         .phone-mockup {
-            width: 300px;
-            height: 600px;
-            background: var(--bg-secondary);
-            border-radius: 40px;
-            border: 8px solid var(--bg-tertiary);
+            width: 320px;
+            height: 650px;
+            background: #000;
+            border-radius: 50px;
+            border: 10px solid #1a1a1a;
             box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5),
-                        0 0 0 1px rgba(255, 255, 255, 0.1);
+                        0 0 0 2px rgba(255, 255, 255, 0.1),
+                        inset 0 0 0 2px rgba(255, 255, 255, 0.05);
             overflow: hidden;
             position: relative;
+            animation: phoneFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 35px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 10;
         }
 
         .phone-screen {
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            padding: 3rem 1.5rem 1.5rem;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+            padding: 60px 20px 20px;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
-        .phone-notch {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 30px;
-            background: var(--bg-primary);
-            border-radius: 0 0 20px 20px;
-        }
-
-        .phone-app-header {
+        /* Animated app content inside phone */
+        .phone-header {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 15px;
         }
 
-        .phone-app-header h3 {
-            font-size: 1.5rem;
-            font-weight: 800;
+        .phone-logo {
+            font-size: 2rem;
+            font-weight: 900;
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
         }
 
-        .phone-app-header p {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-
-        .phone-workout-card {
-            background: var(--bg-tertiary);
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .phone-workout-card h4 {
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .phone-workout-card .tag {
-            display: inline-block;
-            background: var(--accent-blue);
-            color: white;
-            padding: 0.2rem 0.6rem;
+        .phone-premium-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.65rem;
             font-weight: 600;
+            color: var(--accent-yellow);
         }
 
-        .phone-stats {
+        .phone-mascot {
+            text-align: center;
+            font-size: 4rem;
+            margin: 10px 0;
+            animation: mascotBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes mascotBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .phone-greeting {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .phone-workout-card {
+            background: linear-gradient(135deg, #2a1a1a 0%, #1a1a1a 100%);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .phone-workout-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .phone-workout-icon {
+            font-size: 1.2rem;
+        }
+
+        .phone-workout-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .phone-workout-day {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .phone-workout-tags {
+            display: flex;
+            gap: 6px;
+            margin: 10px 0;
+        }
+
+        .phone-tag {
+            background: rgba(255, 59, 48, 0.2);
+            color: #ff6b6b;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
+        .phone-workout-complete {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-green);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .phone-refaire-btn {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            width: 100%;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .phone-stats-row {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
             margin-top: auto;
         }
 
-        .phone-stat {
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            padding: 0.8rem;
+        .phone-stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 12px 8px;
             text-align: center;
         }
 
-        .phone-stat .value {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-orange);
+        .phone-stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
         }
 
-        .phone-stat .label {
-            font-size: 0.6rem;
+        .phone-stat-value {
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .phone-stat-label {
+            font-size: 0.55rem;
             color: var(--text-secondary);
+        }
+
+        /* Floating elements around phone */
+        .floating-badge {
+            position: absolute;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+
+        .floating-badge.strava-badge {
+            top: 20%;
+            right: -60px;
+            background: linear-gradient(135deg, #FC4C02, #FF6B35);
+            color: white;
+            animation-delay: 0s;
+        }
+
+        .floating-badge.nutrition-badge {
+            bottom: 30%;
+            left: -80px;
+            background: linear-gradient(135deg, #34C759, #30D158);
+            color: white;
+            animation-delay: 2s;
+        }
+
+        .floating-badge.timer-badge {
+            top: 50%;
+            right: -70px;
+            animation-delay: 1s;
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         /* Features Section */
@@ -360,11 +527,12 @@
             margin-bottom: 1.5rem;
         }
 
-        .feature-icon.orange { background: rgba(255, 149, 0, 0.2); }
+        .feature-icon.orange { background: rgba(255, 59, 48, 0.2); }
         .feature-icon.blue { background: rgba(0, 122, 255, 0.2); }
         .feature-icon.green { background: rgba(52, 199, 89, 0.2); }
         .feature-icon.purple { background: rgba(175, 82, 222, 0.2); }
-        .feature-icon.red { background: rgba(255, 59, 48, 0.2); }
+        .feature-icon.red { background: rgba(255, 107, 53, 0.2); }
+        .feature-icon.strava { background: rgba(252, 76, 2, 0.2); }
 
         .feature-card h3 {
             font-size: 1.3rem;
@@ -375,6 +543,411 @@
         .feature-card p {
             color: var(--text-secondary);
             font-size: 0.95rem;
+        }
+
+        /* Strava Integration Section */
+        .strava-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, #1a0a00 50%, var(--bg-primary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .strava-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 50%, rgba(252, 76, 2, 0.15) 0%, transparent 50%);
+        }
+
+        .strava-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .strava-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .strava-content h2 span {
+            color: var(--accent-strava);
+        }
+
+        .strava-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .strava-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .strava-feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(252, 76, 2, 0.2);
+        }
+
+        .strava-feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(252, 76, 2, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .strava-feature-text h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .strava-feature-text p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .strava-visual {
+            position: relative;
+        }
+
+        .strava-card {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(252, 76, 2, 0.3);
+            box-shadow: 0 20px 60px rgba(252, 76, 2, 0.1);
+        }
+
+        .strava-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .strava-logo {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-strava);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+        }
+
+        .strava-card-title h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .strava-card-title span {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .strava-activity {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .strava-activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .strava-activity h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .strava-activity-type {
+            font-size: 0.75rem;
+            color: var(--accent-strava);
+        }
+
+        .strava-activity-ich {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .strava-activity-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .strava-stat {
+            text-align: center;
+        }
+
+        .strava-stat .value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-strava);
+        }
+
+        .strava-stat .label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .strava-activity-desc {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Nutrition Section */
+        .nutrition-section {
+            padding: 6rem 2rem;
+            background: var(--bg-secondary);
+        }
+
+        .nutrition-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .nutrition-phone {
+            position: relative;
+        }
+
+        .nutrition-phone-mockup {
+            width: 280px;
+            height: 560px;
+            background: #000;
+            border-radius: 40px;
+            border: 8px solid #1a1a1a;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .nutrition-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            padding: 40px 15px 15px;
+            overflow: hidden;
+        }
+
+        .nutrition-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .nutrition-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .nutrition-close {
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--accent-orange);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .nutrition-calories {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .nutrition-macros {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .nutrition-macro {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .nutrition-macro-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin: 0 auto 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .nutrition-macro-icon.protein { background: #FF3B30; }
+        .nutrition-macro-icon.carbs { background: #34C759; }
+        .nutrition-macro-icon.fat { background: #FFD60A; color: #000; }
+
+        .nutrition-macro-value {
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .nutrition-macro-label {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+        }
+
+        .nutrition-days {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .nutrition-day {
+            flex: 1;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .nutrition-day.active {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+        }
+
+        .nutrition-meals {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nutrition-meal {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .nutrition-meal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nutrition-meal h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .nutrition-meal-time {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
+        .nutrition-meal-kcal {
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .nutrition-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .nutrition-content h2 span {
+            background: linear-gradient(135deg, var(--accent-green), #30D158);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nutrition-content > p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nutrition-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nutrition-feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .nutrition-feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(52, 199, 89, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .nutrition-feature-text h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .nutrition-feature-text p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
 
         /* Program Section */
@@ -809,6 +1382,10 @@
                 margin-right: auto;
             }
 
+            .hero-badges {
+                justify-content: center;
+            }
+
             .hero-buttons {
                 justify-content: center;
             }
@@ -818,8 +1395,12 @@
             }
 
             .phone-mockup {
-                width: 250px;
-                height: 500px;
+                width: 280px;
+                height: 570px;
+            }
+
+            .floating-badge {
+                display: none;
             }
 
             .program-showcase {
@@ -844,6 +1425,22 @@
 
             .nav-links {
                 display: none;
+            }
+
+            .strava-container {
+                grid-template-columns: 1fr;
+            }
+
+            .strava-visual {
+                order: -1;
+            }
+
+            .nutrition-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nutrition-phone {
+                order: -1;
             }
         }
 
@@ -878,6 +1475,16 @@
                 gap: 1rem;
                 text-align: center;
             }
+
+            .strava-content h2,
+            .nutrition-content h2 {
+                font-size: 2rem;
+            }
+
+            .nutrition-phone-mockup {
+                width: 250px;
+                height: 500px;
+            }
         }
     </style>
 </head>
@@ -885,10 +1492,13 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <div class="logo">ICH!</div>
+            <div class="logo">
+                <span>💪</span> ICH!
+            </div>
             <ul class="nav-links">
                 <li><a href="#features">Fonctionnalités</a></li>
-                <li><a href="#programs">Programmes</a></li>
+                <li><a href="#strava">Strava</a></li>
+                <li><a href="#nutrition">Nutrition</a></li>
                 <li><a href="#pricing">Tarifs</a></li>
                 <li><a href="#download" class="nav-cta">Télécharger</a></li>
             </ul>
@@ -900,7 +1510,12 @@
         <div class="hero-content">
             <div class="hero-text">
                 <h1>La musculation <span>intelligente</span></h1>
-                <p>Des programmes scientifiques personnalisés, un suivi précis de ta progression, et tout ce qu'il faut pour atteindre tes objectifs. Plus d'excuses.</p>
+                <p>Des programmes scientifiques personnalisés, un suivi précis de ta progression, la nutrition, et l'intégration Strava. Plus d'excuses.</p>
+                <div class="hero-badges">
+                    <div class="hero-badge">⚡ Live Activities</div>
+                    <div class="hero-badge strava">🏃 Strava Connect</div>
+                    <div class="hero-badge">🥗 Nutrition</div>
+                </div>
                 <div class="hero-buttons">
                     <a href="#download" class="btn btn-primary">
                         <span>📱</span> Télécharger l'app
@@ -911,37 +1526,56 @@
                 </div>
             </div>
             <div class="hero-image">
+                <div class="floating-badge strava-badge">
+                    🏃 Partagé sur Strava
+                </div>
+                <div class="floating-badge nutrition-badge">
+                    🥗 2932 kcal
+                </div>
+                <div class="floating-badge timer-badge">
+                    ⏱️ 0:45 repos
+                </div>
                 <div class="phone-mockup">
                     <div class="phone-notch"></div>
                     <div class="phone-screen">
-                        <div class="phone-app-header">
-                            <h3>ICH!</h3>
-                            <p>Prêt à t'entraîner ? 💪</p>
+                        <div class="phone-header">
+                            <div class="phone-premium-badge">👑 PREMIUM</div>
                         </div>
+                        <div class="phone-mascot">🏋️‍♂️</div>
+                        <div class="phone-greeting">Session nocturne ?</div>
                         <div class="phone-workout-card">
-                            <h4>Push - Pectoraux & Épaules</h4>
-                            <span class="tag">Aujourd'hui</span>
+                            <div class="phone-workout-header">
+                                <span class="phone-workout-icon">⬆️</span>
+                                <span class="phone-workout-title">PUSH</span>
+                            </div>
+                            <div class="phone-workout-day">Lundi</div>
+                            <div class="phone-workout-tags">
+                                <span class="phone-tag">Pectoraux</span>
+                                <span class="phone-tag">Épaules</span>
+                                <span class="phone-tag">Triceps</span>
+                            </div>
+                            <div class="phone-workout-complete">
+                                ✅ Séance complétée !
+                            </div>
+                            <button class="phone-refaire-btn">
+                                🔄 Refaire
+                            </button>
                         </div>
-                        <div class="phone-workout-card">
-                            <h4>Pull - Dos & Biceps</h4>
-                            <span class="tag" style="background: var(--accent-green);">Demain</span>
-                        </div>
-                        <div class="phone-stats">
-                            <div class="phone-stat">
-                                <div class="value">14</div>
-                                <div class="label">Séances</div>
+                        <div class="phone-stats-row">
+                            <div class="phone-stat-card">
+                                <div class="phone-stat-icon">🔥</div>
+                                <div class="phone-stat-value">1</div>
+                                <div class="phone-stat-label">Série 🔥</div>
                             </div>
-                            <div class="phone-stat">
-                                <div class="value">🔥7</div>
-                                <div class="label">Streak</div>
+                            <div class="phone-stat-card">
+                                <div class="phone-stat-icon">🏋️</div>
+                                <div class="phone-stat-value">2/5</div>
+                                <div class="phone-stat-label">Séances</div>
                             </div>
-                            <div class="phone-stat">
-                                <div class="value">+12%</div>
-                                <div class="label">Volume</div>
-                            </div>
-                            <div class="phone-stat">
-                                <div class="value">85kg</div>
-                                <div class="label">Squat 1RM</div>
+                            <div class="phone-stat-card">
+                                <div class="phone-stat-icon">🏆</div>
+                                <div class="phone-stat-value">16</div>
+                                <div class="phone-stat-label">Total</div>
                             </div>
                         </div>
                     </div>
@@ -983,9 +1617,194 @@
                 <p>Accède à des démonstrations en GIF pour chaque exercice. Apprends la bonne technique et évite les blessures.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon orange">🔄</div>
-                <h3>Variantes d'exercices</h3>
-                <p>Pas accès à un équipement ? Choisis parmi les variantes proposées pour adapter les exercices à ton matériel.</p>
+                <div class="feature-icon strava">🏃</div>
+                <h3>Intégration Strava</h3>
+                <p>Partage automatiquement tes séances sur Strava. Montre à tes amis que tu ne fais pas que du vélo !</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon green">🥗</div>
+                <h3>Programme Nutrition</h3>
+                <p>Plans alimentaires adaptés à tes objectifs avec macros calculées et repas détaillés pour chaque jour.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Strava Integration Section -->
+    <section class="strava-section" id="strava">
+        <div class="strava-container">
+            <div class="strava-content">
+                <h2>Connecté à <span>Strava</span></h2>
+                <p>Partage automatiquement tes séances de musculation sur Strava et montre à tout le monde que tu ne fais pas que du cardio.</p>
+                <div class="strava-features">
+                    <div class="strava-feature">
+                        <div class="strava-feature-icon">📤</div>
+                        <div class="strava-feature-text">
+                            <h4>Partage automatique</h4>
+                            <p>Un clic après ta séance pour publier sur Strava</p>
+                        </div>
+                    </div>
+                    <div class="strava-feature">
+                        <div class="strava-feature-icon">📊</div>
+                        <div class="strava-feature-text">
+                            <h4>Détails complets</h4>
+                            <p>Exercices, poids, séries et records personnels</p>
+                        </div>
+                    </div>
+                    <div class="strava-feature">
+                        <div class="strava-feature-icon">🏆</div>
+                        <div class="strava-feature-text">
+                            <h4>Kudos garantis</h4>
+                            <p>Impressionne tes amis avec tes perfs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="strava-visual">
+                <div class="strava-card">
+                    <div class="strava-card-header">
+                        <div class="strava-logo">S</div>
+                        <div class="strava-card-title">
+                            <h3>Activité Strava</h3>
+                            <span>Il y a 2 heures</span>
+                        </div>
+                    </div>
+                    <div class="strava-activity">
+                        <div class="strava-activity-header">
+                            <div>
+                                <h4>Musculation - Push</h4>
+                                <div class="strava-activity-type">🏋️ WeightTraining</div>
+                            </div>
+                            <div class="strava-activity-ich">ICH!</div>
+                        </div>
+                        <div class="strava-activity-stats">
+                            <div class="strava-stat">
+                                <div class="value">52min</div>
+                                <div class="label">Durée</div>
+                            </div>
+                            <div class="strava-stat">
+                                <div class="value">7</div>
+                                <div class="label">Exercices</div>
+                            </div>
+                            <div class="strava-stat">
+                                <div class="value">24</div>
+                                <div class="label">Séries</div>
+                            </div>
+                        </div>
+                        <div class="strava-activity-desc">
+                            Séance ICH! 💪<br><br>
+                            • Développé couché: 4 séries (max: 80kg x 8)<br>
+                            • Développé incliné: 3 séries (max: 32kg x 10)<br>
+                            • Élévations latérales: 4 séries (max: 14kg x 15)<br>
+                            ━━━━━━━━━━━━━━━━━━<br>
+                            📲 Enregistré avec ICH!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nutrition Section -->
+    <section class="nutrition-section" id="nutrition">
+        <div class="nutrition-container">
+            <div class="nutrition-phone">
+                <div class="nutrition-phone-mockup">
+                    <div class="nutrition-screen">
+                        <div class="nutrition-header">
+                            <h3>Programme Nutrition</h3>
+                            <span class="nutrition-close">Fermer</span>
+                        </div>
+                        <div class="nutrition-calories">2 932 kcal</div>
+                        <div class="nutrition-macros">
+                            <div class="nutrition-macro">
+                                <div class="nutrition-macro-icon protein">P</div>
+                                <div class="nutrition-macro-value">132g</div>
+                                <div class="nutrition-macro-label">Protéines</div>
+                            </div>
+                            <div class="nutrition-macro">
+                                <div class="nutrition-macro-icon carbs">C</div>
+                                <div class="nutrition-macro-value">330g</div>
+                                <div class="nutrition-macro-label">Glucides</div>
+                            </div>
+                            <div class="nutrition-macro">
+                                <div class="nutrition-macro-icon fat">L</div>
+                                <div class="nutrition-macro-value">66g</div>
+                                <div class="nutrition-macro-label">Lipides</div>
+                            </div>
+                        </div>
+                        <div class="nutrition-days">
+                            <div class="nutrition-day active">Lun</div>
+                            <div class="nutrition-day">Mar</div>
+                            <div class="nutrition-day">Mer</div>
+                            <div class="nutrition-day">Jeu</div>
+                            <div class="nutrition-day">Ven</div>
+                            <div class="nutrition-day">Sam</div>
+                        </div>
+                        <div class="nutrition-meals">
+                            <div class="nutrition-meal">
+                                <div class="nutrition-meal-header">
+                                    <div>
+                                        <h4>Petit-déjeuner</h4>
+                                        <span class="nutrition-meal-time">• 7h00</span>
+                                    </div>
+                                    <span class="nutrition-meal-kcal">850 kcal</span>
+                                </div>
+                            </div>
+                            <div class="nutrition-meal">
+                                <div class="nutrition-meal-header">
+                                    <div>
+                                        <h4>Collation matin</h4>
+                                        <span class="nutrition-meal-time">• 10h00</span>
+                                    </div>
+                                    <span class="nutrition-meal-kcal">450 kcal</span>
+                                </div>
+                            </div>
+                            <div class="nutrition-meal">
+                                <div class="nutrition-meal-header">
+                                    <div>
+                                        <h4>Déjeuner</h4>
+                                        <span class="nutrition-meal-time">• 12h30</span>
+                                    </div>
+                                    <span class="nutrition-meal-kcal">750 kcal</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nutrition-content">
+                <h2>Programme <span>Nutrition</span></h2>
+                <p>Des plans alimentaires complets et personnalisés pour accompagner ta prise de masse. Tous les repas, macros et calories calculés pour toi.</p>
+                <div class="nutrition-features">
+                    <div class="nutrition-feature-item">
+                        <div class="nutrition-feature-icon">📅</div>
+                        <div class="nutrition-feature-text">
+                            <h4>Plan hebdomadaire</h4>
+                            <p>7 jours de repas variés et équilibrés</p>
+                        </div>
+                    </div>
+                    <div class="nutrition-feature-item">
+                        <div class="nutrition-feature-icon">🎯</div>
+                        <div class="nutrition-feature-text">
+                            <h4>Macros optimisées</h4>
+                            <p>Protéines, glucides et lipides calculés pour tes objectifs</p>
+                        </div>
+                    </div>
+                    <div class="nutrition-feature-item">
+                        <div class="nutrition-feature-icon">🍳</div>
+                        <div class="nutrition-feature-text">
+                            <h4>Repas détaillés</h4>
+                            <p>Ingrédients et quantités précises pour chaque repas</p>
+                        </div>
+                    </div>
+                    <div class="nutrition-feature-item">
+                        <div class="nutrition-feature-icon">💪</div>
+                        <div class="nutrition-feature-text">
+                            <h4>Prise de masse</h4>
+                            <p>Surplus calorique adapté à ta progression</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1188,6 +2007,8 @@
                 <h4>Produit</h4>
                 <ul>
                     <li><a href="#features">Fonctionnalités</a></li>
+                    <li><a href="#strava">Strava</a></li>
+                    <li><a href="#nutrition">Nutrition</a></li>
                     <li><a href="#programs">Programmes</a></li>
                     <li><a href="#pricing">Tarifs</a></li>
                 </ul>
@@ -1237,9 +2058,9 @@
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.scrollY > 50) {
-                nav.style.background = 'rgba(0, 0, 0, 0.95)';
+                nav.style.background = 'rgba(10, 10, 10, 0.98)';
             } else {
-                nav.style.background = 'rgba(0, 0, 0, 0.8)';
+                nav.style.background = 'rgba(10, 10, 10, 0.8)';
             }
         });
 
@@ -1267,12 +2088,116 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.feature-card, .program-item, .testimonial-card, .pricing-card').forEach(el => {
+        document.querySelectorAll('.feature-card, .program-item, .testimonial-card, .pricing-card, .strava-feature, .nutrition-feature-item').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
         });
+
+        // Animate strava and nutrition sections
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.strava-card, .nutrition-phone-mockup').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateX(30px)';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            sectionObserver.observe(el);
+        });
+
+        // Make sections visible when observed
+        const visibleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.strava-card, .nutrition-phone-mockup').forEach(el => {
+            visibleObserver.observe(el);
+        });
+
+        // Counter animation for stats
+        const animateCounter = (element, target, duration = 2000) => {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target + (element.dataset.suffix || '');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start) + (element.dataset.suffix || '');
+                }
+            }, 16);
+        };
+
+        // Observe stats for counter animation
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    entry.target.classList.add('animated');
+                    const numbers = entry.target.querySelectorAll('.number');
+                    numbers.forEach(num => {
+                        const text = num.textContent;
+                        const value = parseInt(text.replace(/[^0-9]/g, ''));
+                        if (!isNaN(value) && value > 0) {
+                            const suffix = text.replace(/[0-9]/g, '');
+                            num.dataset.suffix = suffix;
+                            num.textContent = '0' + suffix;
+                            animateCounter(num, value);
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stats-section').forEach(el => {
+            statsObserver.observe(el);
+        });
+
+        // Phone screen content cycling (optional dynamic effect)
+        const phoneWorkoutCard = document.querySelector('.phone-workout-card');
+        if (phoneWorkoutCard) {
+            const workouts = [
+                { title: 'PUSH', day: 'Lundi', tags: ['Pectoraux', 'Épaules', 'Triceps'], icon: '⬆️' },
+                { title: 'PULL', day: 'Mercredi', tags: ['Dos', 'Biceps', 'Avant-bras'], icon: '⬇️' },
+                { title: 'LEGS', day: 'Vendredi', tags: ['Quadriceps', 'Ischio', 'Mollets'], icon: '🦵' }
+            ];
+            let currentWorkout = 0;
+            
+            setInterval(() => {
+                currentWorkout = (currentWorkout + 1) % workouts.length;
+                const workout = workouts[currentWorkout];
+                
+                phoneWorkoutCard.style.opacity = '0';
+                phoneWorkoutCard.style.transform = 'translateY(10px)';
+                
+                setTimeout(() => {
+                    phoneWorkoutCard.querySelector('.phone-workout-icon').textContent = workout.icon;
+                    phoneWorkoutCard.querySelector('.phone-workout-title').textContent = workout.title;
+                    phoneWorkoutCard.querySelector('.phone-workout-day').textContent = workout.day;
+                    
+                    const tagsContainer = phoneWorkoutCard.querySelector('.phone-workout-tags');
+                    tagsContainer.innerHTML = workout.tags.map(tag => 
+                        `<span class="phone-tag">${tag}</span>`
+                    ).join('');
+                    
+                    phoneWorkoutCard.style.opacity = '1';
+                    phoneWorkoutCard.style.transform = 'translateY(0)';
+                }, 300);
+            }, 4000);
+            
+            phoneWorkoutCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        }
     </script>
 </body>
 </html>
