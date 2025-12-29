@@ -79,6 +79,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
         }
 
         .logo-img {
@@ -1492,9 +1499,10 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <div class="logo">
-                <span>💪</span> ICH!
-            </div>
+            <a href="#" class="logo">
+                <img src="logo.png" alt="ICH! Logo" class="logo-icon">
+                <span style="-webkit-text-fill-color: transparent; background: linear-gradient(135deg, #FF3B30, #FF9500); -webkit-background-clip: text;">ICH!</span>
+            </a>
             <ul class="nav-links">
                 <li><a href="#features">Fonctionnalités</a></li>
                 <li><a href="#strava">Strava</a></li>
@@ -2000,7 +2008,10 @@
     <footer>
         <div class="footer-content">
             <div class="footer-brand">
-                <div class="logo">ICH!</div>
+                <a href="#" class="logo">
+                    <img src="logo.png" alt="ICH! Logo" class="logo-icon">
+                    <span style="-webkit-text-fill-color: transparent; background: linear-gradient(135deg, #FF3B30, #FF9500); -webkit-background-clip: text;">ICH!</span>
+                </a>
                 <p>L'application de musculation intelligente pour ceux qui veulent vraiment progresser.</p>
             </div>
             <div class="footer-links">
